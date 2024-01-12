@@ -76,6 +76,7 @@ def set_events():
             counter += 1
         event['status'] = ''
         event['confirm'] = []
+        event['delta'] = 0
         events.append(event)
     return events
 
