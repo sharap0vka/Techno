@@ -24,7 +24,6 @@ config.read('config.ini')
 DEFAULT_DATE = datetime.datetime.now().strftime("%d.%m.%Y")
 MID_DAY_HOUR = int(config['APP']['MID_DAY_HOUR'])
 DRIVER_PATH = config['APP']['DRIVER_PATH']
-LOG_PATH = config['APP']['LOG_PATH']
 LOGIN_ACC = config['APP']['LOGIN_ACC']
 PASSWORD_ACC = config['APP']['PASSWORD_ACC']
 
