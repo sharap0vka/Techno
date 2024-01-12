@@ -296,15 +296,15 @@ def find(sender, data):
 with dpg.window(label="App", tag="main_window"):
     dpg.bind_font("Default font")
     with dpg.group(horizontal=True) as main_group:
-        dpg.add_input_text(label="Shop number", tag='input_shop', width=100, default_value = '78622')
+        dpg.add_input_text(label="Shop number", tag='input_shop', width=100, default_value = '')
         dpg.add_button(label="ADD EVENT", callback=add_event, width=100)
         dpg.add_button(label="DESTROY", callback=destroy_elements, width=100)
         dpg.add_button(label="FIND", callback=find, width=400)
     dpg.add_separator()
     with dpg.group(horizontal=False) as events_groups:
         with dpg.group(horizontal=True):
-            dpg.add_input_text(label="Worker number", tag='input_worker', width=100, default_value = '316267')
-            dpg.add_input_text(label="Event date", tag='input_date', width=100, default_value='10.01.2024')
+            dpg.add_input_text(label="Worker number", tag='input_worker', width=100, default_value = '')
+            dpg.add_input_text(label="Event date", tag='input_date', width=100, default_value=DEFAULT_DATE)
             dpg.add_radio_button(['Day', 'Night'], horizontal=True, default_value='Day')
 
 dpg.create_viewport(title='Bio robot', width=800, height=600)
