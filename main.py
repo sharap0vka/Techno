@@ -16,6 +16,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from pprint import pprint
+import pyperclip
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -164,9 +165,15 @@ def destroy_elements(sender, data):
         dpg.delete_item(element)
     ELEMENTS.clear()
 
+def copy():
+    res = ''
+    for mess in BUFFER:
+        res += mess + '\n'
+    pyperclip.copy(res)
+
 def create_new_window(events, shop, log): 
     with dpg.window(label='result', pos=(10, 10), width=760, height=540):
-        dpg.add_button(label='COPY TO CLIPBOARD', width=744, height=100)
+        dpg.add_button(label='COPY TO CLIPBOARD', callback=copy, width=744, height=100)
 
         dpg.add_separator()
         if log == -1:
@@ -257,9 +264,11 @@ def set_response(events):
             for mark in marks:
                 marks_str += f'{mark.strftime("%d.%m.%Y %H:%M:%S")}\n'
             event['resp'] = f'По сотруднику {event["worker"]} за {event["date"].strftime("%d.%m.%Y")}.\nВ базе зарегистрированы следующие события:\n{marks_str}Передано на "1-ая линия поддержки 1С: ЗУП"'
+            BUFFER.append(event['resp'])
 
         if event['status'] == 'fail_full':
             event['resp'] = f'В базе Технолинк за {event["date"].strftime("%d.%m.%Y")} данных нет.\nТехническая ошибка не подтверждена.\nДля подтверждения технической проблемы, необходимо вкладывать скриншоты с ошибкой.\nЗапросите подтверждение работы сотрудников от ТР через СВ, далее пишите на электронный адрес "Табель учета рабочего времени магазины все РУ" taburv-allshops@dixy.ru'
+            BUFFER.append(event['resp'])
 
         if event['status'] == 'fail_one':
             marks = [mark['date_time'] for mark in event['confirm'] if mark['error'] == ' ']
@@ -267,6 +276,7 @@ def set_response(events):
             for mark in marks:
                 marks_str += f'{mark.strftime("%d.%m.%Y %H:%M:%S")}\n'
             event['resp'] = f'В базе зарегистрированы следующие события:\n{marks_str}Запросите подтверждение работы сотрудников от ТР через СВ, далее пишите на электронный адрес "Табель учета рабочего времени магазины все РУ" taburv-allshops@dixy.ru'
+            BUFFER.append(event['resp'])
                 
 
 def find(sender, data):
