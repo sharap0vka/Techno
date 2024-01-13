@@ -175,8 +175,8 @@ def copy():
     pyperclip.copy(res)
 
 def create_new_window(events, shop, log): 
-    with dpg.window(label='result', pos=(10, 10), width=1180, height=540):
-        dpg.add_button(label='COPY TO CLIPBOARD', callback=copy, width=744, height=100)
+    with dpg.window(label='result', pos=(10, 10), width=1150, height=540):
+        dpg.add_button(label='COPY TO CLIPBOARD', callback=copy, width=1120, height=100)
 
         dpg.add_separator()
         if log == -1:
@@ -284,7 +284,7 @@ def set_response(events):
 
 def find(sender, data):
     BUFFER.clear()
-    with dpg.window(label='preloader', pos=(250, 200), width=300, height=200, no_move=True, no_close=True, no_resize=True, no_collapse=True, no_title_bar=True, modal=True) as window:        
+    with dpg.window(label='preloader', pos=(450, 200), width=300, height=200, no_move=True, no_close=True, no_resize=True, no_collapse=True, no_title_bar=True, modal=True) as window:        
         dpg.add_loading_indicator(pos=(120, 50))
         dpg.add_text('Загружаем лог...', pos=(90, 120))
     query = Query(dpg.get_value('input_shop'), set_events())
