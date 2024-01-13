@@ -175,7 +175,7 @@ def copy():
     pyperclip.copy(res)
 
 def create_new_window(events, shop, log): 
-    with dpg.window(label='result', pos=(10, 10), width=760, height=540):
+    with dpg.window(label='result', pos=(10, 10), width=1180, height=540):
         dpg.add_button(label='COPY TO CLIPBOARD', callback=copy, width=744, height=100)
 
         dpg.add_separator()
