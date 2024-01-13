@@ -16,7 +16,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from pprint import pprint
-import pyperclip
+# import pyperclip
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -29,7 +29,7 @@ PASSWORD_ACC = config['APP']['PASSWORD_ACC']
 
 BUFFER = []
 RED_COLOR = (255, 0, 0, 255)
-GREEN_COLOR = (255, 0, 0, 255)
+GREEN_COLOR = (0, 255, 0, 255)
 YELLOW_COLOR = (255, 255, 0, 255)
 ELEMENTS = []
 
@@ -37,6 +37,8 @@ dpg.create_context()
 
 with dpg.font_registry():
     with dpg.font("./fonts/JetBrainsMonoNL-Regular.ttf", 20, default_font=True, id="Default font"):
+        dpg.add_font_range_hint(dpg.mvFontRangeHint_Cyrillic)
+    with dpg.font("./fonts/JetBrainsMonoNL-Regular.ttf", 14, default_font=True, id="Small font"):
         dpg.add_font_range_hint(dpg.mvFontRangeHint_Cyrillic)
 
 class Query():
@@ -170,7 +172,7 @@ def copy():
     res = ''
     for mess in BUFFER:
         res += mess + '\n'
-    pyperclip.copy(res)
+    # pyperclip.copy(res)
 
 def create_new_window(events, shop, log): 
     with dpg.window(label='result', pos=(10, 10), width=760, height=540):
@@ -294,13 +296,41 @@ def find(sender, data):
         set_response(query.events)
     create_new_window(query.events, query.shop, log)
 
+def confirm():
+    pass
+
+def unconfirm_action(sender, data):
+    mess = 'Запросите подтверждение работы сотрудников от ТР через СВ, далее пишите на электронный адрес "Табель учета рабочего времени магазины все РУ" taburv-allshops@dixy.ru'
+    # pyperclip.copy(mess)
+
 with dpg.window(label="App", tag="main_window"):
-    dpg.bind_font("Default font")
+    dpg.bind_font("Default font")   
     with dpg.group(horizontal=True) as main_group:
         dpg.add_input_text(label="Shop number", tag='input_shop', width=100, default_value = '')
         dpg.add_button(label="ADD EVENT", callback=add_event, width=100)
         dpg.add_button(label="DESTROY", callback=destroy_elements, width=100)
-        dpg.add_button(label="FIND", callback=find, width=400)
+        dpg.add_button(label="FIND", callback=find, width=750)
+    dpg.add_separator()
+    with dpg.group(horizontal=True) as info_block:
+        with dpg.group(horizontal=False, horizontal_spacing=5) as confirm:
+            dpg.add_text('Проблемы с идентификацией', bullet=True, color=GREEN_COLOR)
+            dpg.add_text('Не приходит СМС', bullet=True, color=GREEN_COLOR)
+            dpg.add_text('Проблема с установкой/скачиванием приложения', bullet=True, color=GREEN_COLOR)
+            dpg.add_text('Телефон не поддерживает дикси стафф', bullet=True, color=GREEN_COLOR)
+            dpg.add_text('Не сканируется QR код', bullet=True, color=GREEN_COLOR)
+            dpg.add_text('Под своим номером телефона высвечивается другой сотрудник', bullet=True, color=GREEN_COLOR)
+            dpg.add_text('Отсутствие связи в магазине', bullet=True, color=GREEN_COLOR)
+            dpg.add_text('Проблемы со входом в Паспорт магазина', bullet=True, color=GREEN_COLOR)
+            
+        with dpg.group(horizontal=False) as unconfirm:
+            dpg.add_text('Отсутствие телефона у сотрудника / кнопочный телефон', bullet=True, color=RED_COLOR)
+            dpg.add_text('Забыл телефон дома', bullet=True, color=RED_COLOR)
+            dpg.add_text('Сел телефон', bullet=True, color=RED_COLOR)
+            dpg.add_text('Забыли отметиться', bullet=True, color=RED_COLOR)
+            dpg.add_text('Нет интернета на телефоне', bullet=True, color=RED_COLOR)
+            dpg.add_text('Использование одного устройства несколькими пользователями', bullet=True, color=RED_COLOR)
+            dpg.add_text('...', bullet=True, color=RED_COLOR)
+            dpg.add_button(label="ДЕНЬГИ НЕ ГЛАВНОЕ", callback=unconfirm_action, width=600)
     dpg.add_separator()
     with dpg.group(horizontal=False) as events_groups:
         with dpg.group(horizontal=True):
@@ -308,7 +338,7 @@ with dpg.window(label="App", tag="main_window"):
             dpg.add_input_text(label="Event date", tag='input_date', width=100, default_value=DEFAULT_DATE)
             dpg.add_radio_button(['Day', 'Night'], horizontal=True, default_value='Day')
 
-dpg.create_viewport(title='Bio robot', width=800, height=600)
+dpg.create_viewport(title='Bio robot', width=1200, height=600)
 dpg.setup_dearpygui()
 dpg.show_viewport()
 dpg.set_primary_window("main_window", True)
