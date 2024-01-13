@@ -16,7 +16,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from pprint import pprint
-import pyperclip
+# import pyperclip
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -77,6 +77,7 @@ def set_events():
         event['status'] = ''
         event['confirm'] = []
         event['delta'] = 0
+        event['resp'] = ''
         events.append(event)
     return events
 
@@ -169,7 +170,7 @@ def copy():
     res = ''
     for mess in BUFFER:
         res += mess + '\n'
-    pyperclip.copy(res)
+    # pyperclip.copy(res)
 
 def create_new_window(events, shop, log): 
     with dpg.window(label='result', pos=(10, 10), width=760, height=540):
@@ -215,15 +216,15 @@ def set_state(events):
             if chek_in and chek_out: 
                 event['status'] = 'succ'
                 event['delta'] = event['confirm'][-1]['date_time'] - event['confirm'][0]['date_time']
-                return
+                continue
             if chek_in == False and chek_out == False:
                 event['status'] = 'fail_full'
                 event['delta'] = 0
-                return
+                continue
             if chek_in == False or chek_out == False:
                 event['status'] = 'fail_one'
                 event['delta'] = event['confirm'][-1]['date_time'] - event['confirm'][0]['date_time']
-                return
+                continue
             
 
         if event['work_shift'] == 'Night':
@@ -244,15 +245,15 @@ def set_state(events):
             if chek_in and chek_out: 
                 event['status'] = 'succ'
                 event['delta'] = time_out - time_in
-                return
+                continue
             if chek_in == False and chek_out == False:
                 event['status'] = 'fail_full'
                 event['delta'] = 0
-                return
+                continue
             if chek_in == False or chek_out == False:
                 event['status'] = 'fail_one'
                 event['delta'] = event['confirm'][-1]['date_time'] - event['confirm'][0]['date_time']
-                return
+                continue
 
     
 
