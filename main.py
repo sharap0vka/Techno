@@ -16,7 +16,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from pprint import pprint
-# import pyperclip
+import pyperclip
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -172,7 +172,7 @@ def copy():
     res = ''
     for mess in BUFFER:
         res += mess + '\n'
-    # pyperclip.copy(res)
+    pyperclip.copy(res)
 
 def create_new_window(events, shop, log): 
     with dpg.window(label='result', pos=(10, 10), width=760, height=540):
@@ -301,7 +301,7 @@ def confirm():
 
 def unconfirm_action(sender, data):
     mess = 'Запросите подтверждение работы сотрудников от ТР через СВ, далее пишите на электронный адрес "Табель учета рабочего времени магазины все РУ" taburv-allshops@dixy.ru'
-    # pyperclip.copy(mess)
+    pyperclip.copy(mess)
 
 with dpg.window(label="App", tag="main_window"):
     dpg.bind_font("Default font")   
